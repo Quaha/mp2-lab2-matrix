@@ -27,8 +27,7 @@ TEST(TDynamicVector, can_create_copied_vector)
 TEST(TDynamicVector, copied_vector_is_equal_to_source_one)
 {
     TDynamicVector<int> v1(5);
-    for (size_t i = 0; i < v1.size(); i++)
-    {
+    for (size_t i = 0; i < v1.size(); i++) {
         v1[i] = i;
     }
 
@@ -67,6 +66,7 @@ TEST(TDynamicVector, can_get_size)
 TEST(TDynamicVector, can_set_and_get_element)
 {
   TDynamicVector<int> v(4, 4);
+
   v[0] = 4;
 
   EXPECT_EQ(4, v[0]);
@@ -103,6 +103,7 @@ TEST(TDynamicVector, can_assign_vectors_of_equal_size)
 TEST(TDynamicVector, assign_operator_change_vector_size)
 {
     TDynamicVector<int> v1(5, 5), v2(10, 5);
+
     v1 = v2;
 
     EXPECT_EQ(v1.size(), v2.size());
@@ -118,6 +119,7 @@ TEST(TDynamicVector, can_assign_vectors_of_different_size)
 TEST(TDynamicVector, compare_equal_vectors_return_true)
 {
     TDynamicVector<int> v1(5), v2(5);
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
         v2[i] = i;
@@ -129,6 +131,7 @@ TEST(TDynamicVector, compare_equal_vectors_return_true)
 TEST(TDynamicVector, compare_vector_with_itself_return_true)
 {
     TDynamicVector<int> v(5);
+
     for (int i = 0; i < 5; i++) {
         v[i] = i;
     }
@@ -209,6 +212,7 @@ TEST(TDynamicVector, cant_multiply_vectors_with_not_equal_size)
 TEST(TDynamicVector, can_move_construct_vector)
 {
     TDynamicVector<int> v1(5);
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
     }
@@ -219,6 +223,7 @@ TEST(TDynamicVector, can_move_construct_vector)
 TEST(TDynamicVector, moved_vector_is_empty_after_move)
 {
     TDynamicVector<int> v1(5);
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
     }
@@ -231,6 +236,7 @@ TEST(TDynamicVector, moved_vector_is_empty_after_move)
 TEST(TDynamicVector, moved_vector_has_correct_data)
 {
     TDynamicVector<int> v1(5);
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
     }
@@ -244,6 +250,7 @@ TEST(TDynamicVector, moved_vector_has_correct_data)
 TEST(TDynamicVector, can_move_assign_vector)
 {
     TDynamicVector<int> v1(566), v2(1066);
+
     for (int i = 0; i < 566; i++) {
         v1[i] = i;
     }
@@ -254,10 +261,10 @@ TEST(TDynamicVector, can_move_assign_vector)
 TEST(TDynamicVector, move_assigned_vector_is_empty_after_move)
 {
     TDynamicVector<int> v1(5734), v2(10457);
+
     for (int i = 0; i < 5734; i++) {
         v1[i] = i;
     }
-
     v2 = std::move(v1);
 
     EXPECT_EQ(v1.size(), 0);
@@ -279,25 +286,24 @@ TEST(TDynamicVector, move_assigned_vector_has_correct_data)
 
 TEST(TDynamicVector, can_add_zero_vector)
 {
-    TDynamicVector<int> v1(5), zeroVector(5);
+    TDynamicVector<int> v1(5), zeroVector(5), result;
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
         zeroVector[i] = 0;
     }
-
-    TDynamicVector<int> result = v1 + zeroVector;
+    result = v1 + zeroVector;
 
     EXPECT_EQ(result, v1);
 }
 
 TEST(TDynamicVector, can_multiply_vector_by_zero)
 {
-    TDynamicVector<int> v(5);
+    TDynamicVector<int> v(5), result;
     for (int i = 0; i < 5; i++) {
         v[i] = i;
     }
-
-    TDynamicVector<int> result = v * 0;
+    result = v * 0;
 
     for (int i = 0; i < result.size(); i++) {
         EXPECT_EQ(result[i], 0);
@@ -306,12 +312,11 @@ TEST(TDynamicVector, can_multiply_vector_by_zero)
 
 TEST(TDynamicVector, can_multiply_vector_by_one)
 {
-    TDynamicVector<int> v(5);
+    TDynamicVector<int> v(5), result;
     for (int i = 0; i < 5; i++) {
         v[i] = i;
     }
-
-    TDynamicVector<int> result = v * 1;
+    result = v * 1;
 
     EXPECT_EQ(result, v);
 }
@@ -319,10 +324,10 @@ TEST(TDynamicVector, can_multiply_vector_by_one)
 TEST(TDynamicVector, can_move_assign_to_empty_vector)
 {
     TDynamicVector<int> v1(5), v2;
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
     }
-
     v2 = std::move(v1);
 
     EXPECT_EQ(v2.size(), 5);
@@ -332,6 +337,7 @@ TEST(TDynamicVector, can_move_assign_to_empty_vector)
 TEST(TDynamicVector, compare_vectors_with_different_values_return_false)
 {
     TDynamicVector<int> v1(5), v2(5);
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
         v2[i] = i + 1;
@@ -342,12 +348,11 @@ TEST(TDynamicVector, compare_vectors_with_different_values_return_false)
 
 TEST(TDynamicVector, can_copy_assign_vector)
 {
-    TDynamicVector<int> v1(5);
+    TDynamicVector<int> v1(5), v2;
+
     for (int i = 0; i < 5; i++) {
         v1[i] = i;
     }
-
-    TDynamicVector<int> v2;
     v2 = v1;
 
     EXPECT_EQ(v1, v2);

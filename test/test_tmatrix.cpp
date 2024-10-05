@@ -27,6 +27,7 @@ TEST(TDynamicMatrix, can_create_copied_matrix)
 TEST(TDynamicMatrix, copied_matrix_is_equal_to_source_one)
 {
     TDynamicMatrix<int> m1(5);
+
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
             m1[i][j] = i + j;
@@ -62,6 +63,7 @@ TEST(TDynamicMatrix, can_get_size)
 TEST(TDynamicMatrix, can_set_and_get_element)
 {
     TDynamicMatrix<int> m(5, 0);
+
     m[2][3] = 42;
 
     EXPECT_EQ(m[2][3], 42);
@@ -98,6 +100,7 @@ TEST(TDynamicMatrix, can_assign_matrices_of_equal_size)
 TEST(TDynamicMatrix, assign_operator_change_matrix_size)
 {
     TDynamicMatrix<int> m1(5, 0), m2(10, 0);
+
     m1 = m2;
 
     EXPECT_EQ(m1.size(), m2.size());
@@ -148,6 +151,7 @@ TEST(TDynamicMatrix, can_subtract_matrices_with_equal_size)
 TEST(TDynamicMatrix, cant_subtract_matrices_with_not_equal_size)
 {
     TDynamicMatrix<int> m1(5, 0), m2(10, 0);
+
     ASSERT_ANY_THROW(m1 - m2);
 }
 
@@ -288,7 +292,7 @@ TEST(TDynamicMatrix, can_add_zero_matrix)
 
 TEST(TDynamicMatrix, zero_matrix_is_not_equal_to_non_zero_matrix)
 {
-    TDynamicMatrix<int> zero(3);
+    TDynamicMatrix<int> zero(3, 0);
 
     TDynamicMatrix<int> m(3);
     m[0][0] = 1; m[0][1] = 2; m[0][2] = 3;
