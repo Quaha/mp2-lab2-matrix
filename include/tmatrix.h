@@ -38,6 +38,22 @@ public:
         }
     }
 
+    TDynamicVector(size_t size, const T& elem) : sz(size) {
+        if (sz < 0) {
+            throw length_error("Vector size should be non negative");
+        }
+        if (sz > MAX_VECTOR_SIZE) {
+            throw length_error("Vector size should not be greater than MAX_VECTOR_SIZE");
+        }
+
+        if (sz != 0) {
+            pMem = new T[sz];
+            for (size_t i = 0; i < sz; ++i) {
+                pMem[i] = elem;
+            }
+        }
+    }
+
     TDynamicVector(T* arr, size_t size) : sz(size) {
         if (sz < 0) {
             throw length_error("Vector size should be non negative");
