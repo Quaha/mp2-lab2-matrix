@@ -252,53 +252,153 @@ public:
 // Динамическая матрица - шаблонная матрица на динамической памяти
 
 template<typename T> class TDynamicMatrix : private TDynamicVector<TDynamicVector<T>> {
-
+public:
     using TDynamicVector<TDynamicVector<T>>::pMem;
     using TDynamicVector<TDynamicVector<T>>::sz;
 
 public:
     TDynamicMatrix(size_t size) : TDynamicVector<TDynamicVector<T>>(size) {
-        for (size_t i = 0; i < sz; i++)
+        if (sz < 0) {
+            throw length_error("Matrix size should be non negative");
+        }
+        if (sz > MAX_MATRIX_SIZE) {
+            throw length_error("Matrix size should not be greater than MAX_Matrix_SIZE");
+        }
+
+        for (size_t i = 0; i < sz; i++) {
             pMem[i] = TDynamicVector<T>(sz);
+        }
+    }
+
+    TDynamicMatrix(size_t size, const T& elem) : TDynamicMatrix(size) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                pMem[i][j] = elem;
+            }
+        }
     }
 
     using TDynamicVector<TDynamicVector<T>>::operator[];
 
+    T& at(size_t i, size_t j) {
+        if (i < 0 || i >= sz || j < 0 || j >= sz) {
+            throw out_of_range("Invalid index");
+        }
+        return pMem[i][j];
+    }
+
+    const T& at(size_t index) const {
+        if (i < 0 || i >= sz || j < 0 || j >= sz) {
+            throw out_of_range("Invalid index");
+        }
+        return pMem[i][j];
+    }
+
     // Cравнение
     bool operator==(const TDynamicMatrix& m) const noexcept {
-
+        if (this->sz != m.sz) return false;
+        for (int i = 0; i < sz; i++) {
+            if (this->pMem[i] != m.pMem[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Матрично-скалярные операции
-    TDynamicVector<T> operator*(const T& val) {
-
+    TDynamicMatrix<T> operator*(const T& val) const {
+        TDynamicMatrix<T> result(sz);
+        for (int i = 0; i < sz; i++) {
+            result[i] = pMem[i] * val;
+        }
+        return result;
     }
 
     // Матрично-векторные операции
-    TDynamicVector<T> operator*(const TDynamicVector<T>& v) {
+    TDynamicVector<T> operator*(const TDynamicVector<T>& v) const {
+        if (this->sz != v.size()) {
+            throw logic_error("The size of the vectors must match");
+        }
 
+        TDynamicVector<T> result(sz);
+        for (int i = 0; i < sz; i++) {
+            result[i] = this->pMem[i] * v;
+        }
+
+        return result;
     }
 
     // Матрично-матричные операции
-    TDynamicMatrix operator+(const TDynamicMatrix& m) {
+    TDynamicMatrix operator+(const TDynamicMatrix& m) const {
+        if (this->sz != m.sz) {
+            throw logic_error("The size of the matrix must match");
+        }
 
+        TDynamicMatrix<T> result(sz);
+        for (int i = 0; i < sz; i++) {
+            result[i] = this->pMem[i] + m.pMem[i];
+        }
+
+        return result;
     }
 
-    TDynamicMatrix operator-(const TDynamicMatrix& m) {
+    TDynamicMatrix operator-(const TDynamicMatrix& m) const {
+        if (this->sz != m.sz) {
+            throw logic_error("The size of the matrix must match");
+        }
 
+        TDynamicMatrix<T> result(sz);
+        for (int i = 0; i < sz; i++) {
+            result[i] = this->pMem[i] - m.pMem[i];
+        }
+
+        return result;
     }
 
-    TDynamicMatrix operator*(const TDynamicMatrix& m) {
+    TDynamicMatrix operator*(const TDynamicMatrix& m) const {
+        if (this->sz != m.sz) {
+            throw logic_error("The size of the matrix must match");
+        }
 
+        TDynamicMatrix<T> result(sz);
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                result[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < sz; i++) {
+            for (int k = 0; k < sz; k++) {
+                for (int j = 0; j < sz; j++) {
+                    result[i][j] += this->pMem[i][k] * m.pMem[k][j];
+                }
+            }
+        }
+
+        return result;
+    }
+
+    size_t size() const noexcept {
+        return sz;
     }
 
     // Ввод/Вывод
-    friend istream& operator>>(istream& istr, TDynamicMatrix& v) {
+    friend istream& operator>>(istream& istr, TDynamicMatrix& m) {
+        
+        for (int i = 0; i < m.sz; i++) {
+            cin >> m.pMem[i];
+        }
 
+        return istr;
     }
 
-    friend ostream& operator<<(ostream& ostr, const TDynamicMatrix& v) {
+    friend ostream& operator<<(ostream& ostr, const TDynamicMatrix& m) {
+        
+        for (int i = 0; i < m.sz; i++) {
+            cout << m.pMem[i] << "\n";
+        }
 
+        return ostr;
     }
 };
 
