@@ -287,7 +287,7 @@ public:
         return pMem[i][j];
     }
 
-    const T& at(size_t index) const {
+    const T& at(size_t i, size_t j) const {
         if (i < 0 || i >= sz || j < 0 || j >= sz) {
             throw out_of_range("Invalid index");
         }
